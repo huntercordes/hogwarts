@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // parse JSON bodies
+app.use(express.json());
 
 app.get("/houses", async (req, res) => {
   try {
