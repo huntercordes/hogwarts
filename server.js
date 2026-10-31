@@ -197,6 +197,85 @@ app.delete("/students/:id", async (req, res) => {
   }
 });
 
+app.get("/courses", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM courses ORDER BY id");
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: "Could not fetch courses" });
+  }
+});
+
+app.get("/courses/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query("SELECT * FROM courses WHERE id = $1", [id]);
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not fetch course" });
+  }
+});
+
+app.post("/courses", async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name)
+      return res.status(400).json({ error: "name is required" });
+
+    const result = await pool.query(
+      "INSERT INTO courses (name) VALUES ($1) RETURNING *",
+      [name]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not create course" });
+  }
+});
+
+app.put("/courses/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { name } = req.body;
+
+    if (!name)
+      return res.status(400).json({ error: "name is required" });
+
+    const result = await pool.query(
+      "UPDATE courses SET name = $1 WHERE id = $2 RETURNING *",
+      [name, id]
+    );
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not update course" });
+  }
+});
+
+app.delete("/courses/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query("DELETE FROM courses WHERE id = $1", [id]);
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: "Could not delete course" });
+  }
+});
+
 app.get("/db-test", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW() AS current_time");

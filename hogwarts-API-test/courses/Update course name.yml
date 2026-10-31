@@ -1,0 +1,20 @@
+info:
+  name: Update course name
+  type: http
+
+http:
+  method: PUT
+  url: http://localhost:3000/courses/5
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Care of Magical Creatures"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
