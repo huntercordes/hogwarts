@@ -1,0 +1,21 @@
+info:
+  name: Create teacher
+  type: http
+
+http:
+  method: POST
+  url: http://localhost:3000/teachers
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Remus Lupin",
+        "house_id": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

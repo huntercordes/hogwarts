@@ -62,6 +62,24 @@ app.get("/teachers/:id", async (req, res) => {
   }
 });
 
+app.post("/teachers", async (req, res) => {
+  try {
+    const { name, house_id } = req.body;
+
+    if (!name)
+      return res.status(400).json({ error: "name is required" });
+
+    const result = await pool.query(
+      "INSERT INTO teachers (name, house_id) VALUES ($1, $2) RETURNING *",
+      [name, house_id ?? null]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not create teacher" });
+  }
+});
+
 
 app.put("/teachers/:id", async (req, res) => {
   try {
