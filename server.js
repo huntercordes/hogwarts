@@ -313,6 +313,25 @@ app.post("/courses/:id/students", async (req, res) => {
   }
 });
 
+app.delete("/courses/:id/students/:studentId", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const studentId = req.params.studentId;
+
+    const result = await pool.query(
+      "DELETE FROM course_students WHERE course_id = $1 AND student_id = $2",
+      [id, studentId]
+    );
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: "Could not remove student" });
+  }
+});
+
 app.delete("/courses/:id", async (req, res) => {
   try {
     const id = req.params.id;
