@@ -85,6 +85,21 @@ app.put("/teachers/:id", async (req, res) => {
   }
 });
 
+app.delete("/teachers/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query("DELETE FROM teachers WHERE id = $1", [id]);
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: "Could not delete teacher" });
+  }
+});
+
 app.get("/db-test", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW() AS current_time");

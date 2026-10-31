@@ -1,0 +1,21 @@
+info:
+  name: Update teacher
+  type: http
+
+http:
+  method: PUT
+  url: http://localhost:3000/teachers/4
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Severus Snape",
+        "house_id": 4
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
