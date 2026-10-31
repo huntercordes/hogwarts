@@ -266,6 +266,28 @@ app.put("/courses/:id", async (req, res) => {
   }
 });
 
+app.put("/courses/:id/teacher", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { teacher_id } = req.body;
+
+    if (!teacher_id)
+      return res.status(400).json({ error: "teacher_id is required" });
+
+    const result = await pool.query(
+      "UPDATE courses SET teacher_id = $1 WHERE id = $2 RETURNING *",
+      [teacher_id, id]
+    );
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not set teacher" });
+  }
+});
+
 app.delete("/courses/:id", async (req, res) => {
   try {
     const id = req.params.id;
