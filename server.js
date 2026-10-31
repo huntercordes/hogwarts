@@ -118,6 +118,85 @@ app.delete("/teachers/:id", async (req, res) => {
   }
 });
 
+app.get("/students", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM students ORDER BY id");
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: "Could not fetch students" });
+  }
+});
+
+app.get("/students/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query("SELECT * FROM students WHERE id = $1", [id]);
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not fetch student" });
+  }
+});
+
+app.post("/students", async (req, res) => {
+  try {
+    const { name, year, house_id } = req.body;
+
+    if (!name)
+      return res.status(400).json({ error: "name is required" });
+
+    const result = await pool.query(
+      "INSERT INTO students (name, year, house_id) VALUES ($1, $2, $3) RETURNING *",
+      [name, year ?? null, house_id ?? null]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not create student" });
+  }
+});
+
+app.put("/students/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { name, year, house_id } = req.body;
+
+    if (!name)
+      return res.status(400).json({ error: "name is required" });
+
+    const result = await pool.query(
+      "UPDATE students SET name = $1, year = $2, house_id = $3 WHERE id = $4 RETURNING *",
+      [name, year ?? null, house_id ?? null, id]
+    );
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not update student" });
+  }
+});
+
+app.delete("/students/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query("DELETE FROM students WHERE id = $1", [id]);
+
+    if (result.rowCount === 0)
+      return res.sendStatus(404);
+
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: "Could not delete student" });
+  }
+});
+
 app.get("/db-test", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW() AS current_time");
