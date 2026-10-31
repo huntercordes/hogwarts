@@ -220,6 +220,12 @@ app.get("/courses/:id", async (req, res) => {
     const teacher = await pool.query("SELECT * FROM teachers WHERE id = $1", [course.teacher_id]);
     course.teacher = teacher.rows[0] ?? null;
 
+    const students = await pool.query(
+      "SELECT students.* FROM students JOIN course_students ON course_students.student_id = students.id WHERE course_students.course_id = $1 ORDER BY students.id",
+      [id]
+    );
+    course.students = students.rows;
+
     res.status(200).json(course);
   } catch (error) {
     res.status(500).json({ error: "Could not fetch course" });
