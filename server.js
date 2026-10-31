@@ -294,6 +294,25 @@ app.put("/courses/:id/teacher", async (req, res) => {
   }
 });
 
+app.post("/courses/:id/students", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { student_id } = req.body;
+
+    if (!student_id)
+      return res.status(400).json({ error: "student_id is required" });
+
+    const result = await pool.query(
+      "INSERT INTO course_students (course_id, student_id) VALUES ($1, $2) RETURNING *",
+      [id, student_id]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Could not add student" });
+  }
+});
+
 app.delete("/courses/:id", async (req, res) => {
   try {
     const id = req.params.id;
