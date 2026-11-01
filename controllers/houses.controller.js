@@ -10,6 +10,7 @@ export async function getAllHouses(req, res) {
     res.status(500).json({ error: "Could not fetch houses" });
   }
 }
+// why are there no requests? Because get , gets all houses by default so no id needs to be found.
 
 export async function getHouse(req, res) {
   try {
@@ -17,6 +18,7 @@ export async function getHouse(req, res) {
 
     if (!Number.isInteger(Number(id)))
       return res.status(400).json({ error: "id must be a whole number" });
+// must be whole number to match the id in the database, otherwise return a 400 error
 
     const house = await housesRepository.getHouseById(id);
 
