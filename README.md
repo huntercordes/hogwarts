@@ -23,4 +23,12 @@
 - DELETE /courses/:id/students/:studentId - remove student
 - DELETE /courses/:id - delete course
 
+## Tests
+
+Open the hogwarts-API-test folder in Bruno and run the requests in order. Run hogwarts.sql again to reset the data.
+
+## Comments
+
+Houses are commented in detail. Teachers, students and courses follow the same pattern, so only new parts are commented there.
+
 
