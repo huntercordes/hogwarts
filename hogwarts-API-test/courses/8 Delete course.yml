@@ -1,17 +1,18 @@
 info:
-  name: Update course name
+  name: 8 Delete course
   type: http
+  seq: 8
 
 http:
-  method: PUT
+  method: DELETE
   url: http://localhost:3000/courses/5
-  body:
-    type: json
-    data: |-
-      {
-        "name": "Care of Magical Creatures"
-      }
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "204"
 
 settings:
   encodeUrl: true

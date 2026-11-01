@@ -1,6 +1,7 @@
 info:
-  name: Update teacher
+  name: 4 Update teacher
   type: http
+  seq: 4
 
 http:
   method: PUT
@@ -13,6 +14,12 @@ http:
         "house_id": 4
       }
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
 
 settings:
   encodeUrl: true

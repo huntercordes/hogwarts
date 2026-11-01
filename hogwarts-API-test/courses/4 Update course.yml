@@ -1,17 +1,24 @@
 info:
-  name: Set course teacher
+  name: 4 Update course
   type: http
+  seq: 4
 
 http:
   method: PUT
-  url: http://localhost:3000/courses/1/teacher
+  url: http://localhost:3000/courses/4
   body:
     type: json
     data: |-
       {
-        "teacher_id": 1
+        "name": "Charms"
       }
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
 
 settings:
   encodeUrl: true

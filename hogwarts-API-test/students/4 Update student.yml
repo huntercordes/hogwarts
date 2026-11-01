@@ -1,0 +1,29 @@
+info:
+  name: 4 Update student
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: http://localhost:3000/students/6
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Draco Malfoy",
+        "year": 6,
+        "house_id": 4
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

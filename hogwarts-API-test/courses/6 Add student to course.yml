@@ -1,6 +1,7 @@
 info:
-  name: Add student to course
+  name: 6 Add student to course
   type: http
+  seq: 6
 
 http:
   method: POST
@@ -12,6 +13,12 @@ http:
         "student_id": 5
       }
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
 
 settings:
   encodeUrl: true

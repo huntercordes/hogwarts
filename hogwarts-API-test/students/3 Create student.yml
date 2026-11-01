@@ -1,19 +1,26 @@
 info:
-  name: Update student
+  name: 3 Create student
   type: http
+  seq: 3
 
 http:
-  method: PUT
-  url: http://localhost:3000/students/7
+  method: POST
+  url: http://localhost:3000/students
   body:
     type: json
     data: |-
       {
         "name": "Neville Longbottom",
-        "year": 6,
+        "year": 5,
         "house_id": 1
       }
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
 
 settings:
   encodeUrl: true

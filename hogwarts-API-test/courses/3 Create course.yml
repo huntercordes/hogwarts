@@ -1,0 +1,28 @@
+info:
+  name: 3 Create course
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:3000/courses
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Care of Magical Creatures",
+        "teacher_id": 2
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

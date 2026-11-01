@@ -1,17 +1,18 @@
 info:
-  name: Create course
+  name: 1 Get all courses
   type: http
+  seq: 1
 
 http:
-  method: POST
+  method: GET
   url: http://localhost:3000/courses
-  body:
-    type: json
-    data: |-
-      {
-        "name": "Defence Against the Dark Arts"
-      }
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
 
 settings:
   encodeUrl: true

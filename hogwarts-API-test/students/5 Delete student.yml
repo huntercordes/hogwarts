@@ -1,11 +1,18 @@
 info:
-  name: Delete student
+  name: 5 Delete student
   type: http
+  seq: 5
 
 http:
   method: DELETE
   url: http://localhost:3000/students/7
   auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "204"
 
 settings:
   encodeUrl: true
