@@ -1,11 +1,4 @@
-# Hogwarts Course Management System
 
-## Setup
-
-1. `npm install`
-2. Run `hogwarts.sql` in pgAdmin on a database called `hogwarts`
-3. Copy `.env.example` to `.env` and fill in your own database login
-4. `npm run dev`
 
 ## Endpoints
 
@@ -30,6 +23,4 @@
 - DELETE /courses/:id/students/:studentId - remove student
 - DELETE /courses/:id - delete course
 
-## Tests
 
-Open the `hogwarts-API-test` folder as a collection in Bruno and run the requests in order. Run `hogwarts.sql` again to reset the data before running them a second time.
